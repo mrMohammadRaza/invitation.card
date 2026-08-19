@@ -124,17 +124,17 @@ export default function Hero({ data }) {
           className="flex flex-wrap items-center justify-center gap-4 mt-8"
         >
           <button
-            onClick={() => scrollToSection('#rsvp')}
-            className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#d4af37] to-[#c59b27] text-[#060b19] font-sans-ui text-xs uppercase tracking-widest font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+            onClick={() => scrollToSection('#venue')}
+            className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#c59b27] text-[#060b19] font-sans-ui text-xs uppercase tracking-widest font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
           >
-            Will You Join Us? (RSVP)
+            Get Location Directions
           </button>
           
           <button
-            onClick={() => scrollToSection('#venue')}
+            onClick={() => scrollToSection('#events')}
             className="px-8 py-3.5 rounded-full bg-[#0a1128]/90 border border-[#d4af37]/50 text-[#f3e5ab] font-sans-ui text-xs uppercase tracking-widest font-semibold hover:bg-[#d4af37]/20 transition-all cursor-pointer"
           >
-            Get Location Directions
+            View Event Details
           </button>
         </motion.div>
 

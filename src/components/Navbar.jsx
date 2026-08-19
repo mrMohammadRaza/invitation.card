@@ -21,7 +21,6 @@ export default function Navbar({ data, isMuted, onToggleAudio, onOpenAdmin, onSh
     { name: 'Events', href: '#events' },
     { name: 'Venue', href: '#venue' },
     { name: 'Card', href: '#card-viewer' },
-    { name: 'RSVP', href: '#rsvp' },
     { name: 'Contact', href: '#contact' },
   ];
 

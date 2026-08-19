@@ -10,7 +10,6 @@ import BlessingsSection from './components/BlessingsSection';
 import EventDetails from './components/EventDetails';
 import VenueSection from './components/VenueSection';
 import CardViewer from './components/CardViewer';
-import RSVP from './components/RSVP';
 import Guestbook from './components/Guestbook';
 import Gallery from './components/Gallery';
 import ContactSection from './components/ContactSection';
@@ -99,7 +98,6 @@ export default function App() {
             <EventDetails data={weddingData} />
             <VenueSection data={weddingData} />
             <CardViewer data={weddingData} />
-            <RSVP data={weddingData} />
             <Guestbook data={weddingData} />
             <Gallery data={weddingData} />
             <ContactSection data={weddingData} />
