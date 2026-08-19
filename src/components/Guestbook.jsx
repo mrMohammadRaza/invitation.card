@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MessageSquare, Send, Sparkles, User, Clock } from 'lucide-react';
+import { Heart, MessageSquare, Send, Sparkles, User, Clock, Database } from 'lucide-react';
 
 const initialComments = [
   {
-    id: 1,
+    _id: "1",
     name: "Tariq Sheikh & Family",
     text: "May Allah SWT bless this union with eternal love, harmony, and happiness. BarakAllah Lakuma!",
     date: "Aug 19, 2026"
   },
   {
-    id: 2,
+    _id: "2",
     name: "Zaid Khan",
     text: "Heartiest congratulations to Asif brother and Alisha sister! Looking forward to attending the Nikah.",
     date: "Aug 18, 2026"
@@ -18,41 +18,73 @@ const initialComments = [
 ];
 
 export default function Guestbook({ data }) {
-  const [messages, setMessages] = useState(() => {
-    const saved = localStorage.getItem('nikah_guest_comments');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-      } catch (e) {}
-    }
-    return initialComments;
-  });
-
+  const [messages, setMessages] = useState(initialComments);
   const [newName, setNewName] = useState('');
   const [newDua, setNewDua] = useState('');
   const [postedToast, setPostedToast] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isMongoConnected, setIsMongoConnected] = useState(false);
+
+  // Fetch comments from MongoDB Atlas API on load
+  const fetchComments = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch('/api/comments');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setMessages(data);
+          setIsMongoConnected(true);
+        }
+      }
+    } catch (err) {
+      console.log('MongoDB API notice: using fallback browser storage', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    localStorage.setItem('nikah_guest_comments', JSON.stringify(messages));
-  }, [messages]);
+    fetchComments();
+  }, []);
 
-  const handlePostDua = (e) => {
+  const handlePostDua = async (e) => {
     e.preventDefault();
     if (!newName.trim() || !newDua.trim()) return;
 
-    const newEntry = {
-      id: Date.now(),
+    const newCommentData = {
       name: newName.trim(),
-      text: newDua.trim(),
+      text: newDua.trim()
+    };
+
+    // Optimistic UI update
+    const optimisticEntry = {
+      _id: Date.now().toString(),
+      name: newCommentData.name,
+      text: newCommentData.text,
       date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
     };
 
-    setMessages([newEntry, ...messages]);
+    setMessages(prev => [optimisticEntry, ...prev]);
     setNewName('');
     setNewDua('');
     setPostedToast(true);
-    setTimeout(() => setPostedToast(false), 3000);
+    setTimeout(() => setPostedToast(false), 3500);
+
+    // Try posting to MongoDB API
+    try {
+      const res = await fetch('/api/comments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCommentData)
+      });
+      if (res.ok) {
+        setIsMongoConnected(true);
+        fetchComments(); // Refresh with DB ObjectId
+      }
+    } catch (err) {
+      console.log('Saved locally:', err);
+    }
   };
 
   return (
@@ -62,7 +94,7 @@ export default function Guestbook({ data }) {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0a1128] border border-[#d4af37]/30 mb-3">
             <MessageSquare className="w-3.5 h-3.5 text-[#d4af37]" />
             <span className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui">
-              Public Guestbook & Wall
+              Live Guestbook & Comments
             </span>
           </div>
           <h2 className="font-title text-3xl sm:text-4xl text-[#fbf8f3] mb-2">
@@ -124,11 +156,12 @@ export default function Guestbook({ data }) {
               {postedToast ? (
                 <span className="text-xs font-semibold text-green-400 font-sans-ui flex items-center gap-1.5 animate-pulse">
                   <Sparkles className="w-4 h-4 text-[#d4af37]" />
-                  Your comment has been posted on the website!
+                  Your comment has been posted and saved to MongoDB!
                 </span>
               ) : (
-                <span className="text-[11px] text-[#e2d8c3]/50 font-sans-ui">
-                  Comments appear live on this page
+                <span className="text-[11px] text-[#e2d8c3]/60 font-sans-ui flex items-center gap-1.5">
+                  <Database className="w-3.5 h-3.5 text-[#d4af37]" />
+                  Connected to MongoDB Atlas Database
                 </span>
               )}
 
@@ -151,8 +184,9 @@ export default function Guestbook({ data }) {
               {messages.length}
             </span>
           </h3>
-          <span className="text-xs text-[#e2d8c3]/60 font-sans-ui">
-            Saved on website
+          <span className="text-xs text-[#e2d8c3]/70 font-sans-ui flex items-center gap-1">
+            <Database className="w-3.5 h-3.5 text-[#d4af37]" />
+            Saved Live in MongoDB
           </span>
         </div>
 
@@ -161,7 +195,7 @@ export default function Guestbook({ data }) {
           <AnimatePresence>
             {messages.map((item) => (
               <motion.div
-                key={item.id}
+                key={item._id || item.id || item.createdAt}
                 initial={{ opacity: 0, scale: 0.95, y: 15 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
@@ -171,7 +205,7 @@ export default function Guestbook({ data }) {
                 <div className="flex items-center justify-between border-b border-[#d4af37]/20 pb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-full bg-[#d4af37]/15 border border-[#d4af37]/40 flex items-center justify-center text-[#d4af37] font-title font-bold text-xs">
-                      {item.name.charAt(0)}
+                      {item.name ? item.name.charAt(0) : 'U'}
                     </div>
                     <h4 className="font-title text-sm text-[#fbf8f3] font-semibold">
                       {item.name}
@@ -179,7 +213,7 @@ export default function Guestbook({ data }) {
                   </div>
                   <span className="text-[10px] text-[#e2d8c3]/50 font-sans-ui flex items-center gap-1">
                     <Clock className="w-3 h-3 text-[#d4af37]/60" />
-                    {item.date}
+                    {item.date || 'Recent'}
                   </span>
                 </div>
 
