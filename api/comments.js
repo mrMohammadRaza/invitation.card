@@ -1,4 +1,10 @@
 import mongoose from 'mongoose';
+import dns from 'dns';
+
+// DNS Fix for MongoDB Atlas SRV resolution
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {}
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://razasheikh092007_db_user:aWk4ZaC33xRHJMnH@cluster0.vgajj8s.mongodb.net/nikah_db?retryWrites=true&w=majority';
 
@@ -17,7 +23,7 @@ async function connectToDatabase() {
   if (cachedDb && mongoose.connection.readyState === 1) {
     return cachedDb;
   }
-  const db = await mongoose.connect(MONGODB_URI);
+  const db = await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
   cachedDb = db;
   return db;
 }

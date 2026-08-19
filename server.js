@@ -2,6 +2,12 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import dns from 'dns';
+
+// Fix Windows DNS SRV lookup for MongoDB Atlas
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {}
 
 dotenv.config();
 
@@ -26,17 +32,16 @@ const Comment = mongoose.models.Comment || mongoose.model('Comment', commentSche
 // Connect to MongoDB Atlas
 let isConnected = false;
 const connectDB = async () => {
-  if (isConnected) return;
+  if (isConnected && mongoose.connection.readyState === 1) return;
   try {
-    await mongoose.connect(MONGODB_URI);
+    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
     isConnected = true;
     console.log('✅ Connected to MongoDB Atlas (Cluster0 - nikah_db)');
   } catch (err) {
     console.error('❌ MongoDB Connection Error:', err.message);
+    throw err;
   }
 };
-
-connectDB();
 
 // API Routes
 // GET /api/comments - Fetch all guest comments
@@ -74,11 +79,11 @@ app.post('/api/comments', async (req, res) => {
     });
 
     const savedComment = await newComment.save();
-    console.log(`💬 New comment saved from ${savedComment.name}`);
+    console.log(`💬 New comment saved to MongoDB from ${savedComment.name}`);
     res.status(201).json(savedComment);
   } catch (err) {
-    console.error('Error saving comment:', err);
-    res.status(500).json({ error: 'Failed to save comment' });
+    console.error('Error saving comment to MongoDB:', err);
+    res.status(500).json({ error: 'Failed to save comment', details: err.message });
   }
 });
 

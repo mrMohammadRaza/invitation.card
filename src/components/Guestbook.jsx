@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MessageSquare, Send, Sparkles, User, Clock, Database } from 'lucide-react';
+import { Heart, MessageSquare, Send, Sparkles, User, Clock, Database, CheckCircle2 } from 'lucide-react';
 
-const initialComments = [
+const defaultSeedComments = [
   {
     _id: "1",
     name: "Tariq Sheikh & Family",
@@ -18,72 +18,104 @@ const initialComments = [
 ];
 
 export default function Guestbook({ data }) {
-  const [messages, setMessages] = useState(initialComments);
+  // Load initial comments from localStorage cache for instant display on refresh
+  const [messages, setMessages] = useState(() => {
+    const saved = localStorage.getItem('nikah_guest_comments');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch (e) {}
+    }
+    return defaultSeedComments;
+  });
+
   const [newName, setNewName] = useState('');
   const [newDua, setNewDua] = useState('');
   const [postedToast, setPostedToast] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isMongoConnected, setIsMongoConnected] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [dbStatus, setDbStatus] = useState('Syncing with MongoDB...');
 
-  // Fetch comments from MongoDB Atlas API on load
-  const fetchComments = async () => {
-    setIsLoading(true);
+  // Always sync messages to localStorage on state change
+  useEffect(() => {
+    localStorage.setItem('nikah_guest_comments', JSON.stringify(messages));
+  }, [messages]);
+
+  // Fetch comments live from MongoDB Atlas API
+  const fetchCommentsFromDb = async () => {
     try {
       const res = await fetch('/api/comments');
       if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          setMessages(data);
-          setIsMongoConnected(true);
+        const dbComments = await res.json();
+        if (Array.isArray(dbComments)) {
+          if (dbComments.length > 0) {
+            setMessages(dbComments);
+            setDbStatus('Connected to MongoDB Atlas');
+          } else {
+            setDbStatus('MongoDB Atlas connected (0 records)');
+          }
         }
+      } else {
+        setDbStatus('Saved locally in browser');
       }
     } catch (err) {
-      console.log('MongoDB API notice: using fallback browser storage', err);
-    } finally {
-      setIsLoading(false);
+      setDbStatus('Saved locally in browser');
     }
   };
 
   useEffect(() => {
-    fetchComments();
+    fetchCommentsFromDb();
   }, []);
 
   const handlePostDua = async (e) => {
     e.preventDefault();
-    if (!newName.trim() || !newDua.trim()) return;
+    if (!newName.trim() || !newDua.trim() || isSubmitting) return;
 
-    const newCommentData = {
-      name: newName.trim(),
-      text: newDua.trim()
-    };
+    setIsSubmitting(true);
 
-    // Optimistic UI update
-    const optimisticEntry = {
+    const formattedDate = new Date().toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    const newCommentObj = {
       _id: Date.now().toString(),
-      name: newCommentData.name,
-      text: newCommentData.text,
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      name: newName.trim(),
+      text: newDua.trim(),
+      date: formattedDate
     };
 
-    setMessages(prev => [optimisticEntry, ...prev]);
+    // 1. Instant local state & localStorage update (guarantees persistence even if offline)
+    const updatedList = [newCommentObj, ...messages];
+    setMessages(updatedList);
+    localStorage.setItem('nikah_guest_comments', JSON.stringify(updatedList));
+
     setNewName('');
     setNewDua('');
     setPostedToast(true);
-    setTimeout(() => setPostedToast(false), 3500);
+    setTimeout(() => setPostedToast(false), 4000);
 
-    // Try posting to MongoDB API
+    // 2. Transmit to MongoDB Atlas Database
     try {
       const res = await fetch('/api/comments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newCommentData)
+        body: JSON.stringify({
+          name: newCommentObj.name,
+          text: newCommentObj.text
+        })
       });
+
       if (res.ok) {
-        setIsMongoConnected(true);
-        fetchComments(); // Refresh with DB ObjectId
+        setDbStatus('Connected to MongoDB Atlas');
+        // Fetch authoritative list from DB
+        fetchCommentsFromDb();
       }
     } catch (err) {
-      console.log('Saved locally:', err);
+      console.log('Saved to local storage fallback:', err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -152,25 +184,26 @@ export default function Guestbook({ data }) {
               />
             </div>
 
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
               {postedToast ? (
                 <span className="text-xs font-semibold text-green-400 font-sans-ui flex items-center gap-1.5 animate-pulse">
-                  <Sparkles className="w-4 h-4 text-[#d4af37]" />
-                  Your comment has been posted and saved to MongoDB!
+                  <CheckCircle2 className="w-4 h-4 text-green-400" />
+                  Your comment is saved continuously and visible on refresh!
                 </span>
               ) : (
-                <span className="text-[11px] text-[#e2d8c3]/60 font-sans-ui flex items-center gap-1.5">
+                <span className="text-[11px] text-[#e2d8c3]/70 font-sans-ui flex items-center gap-1.5">
                   <Database className="w-3.5 h-3.5 text-[#d4af37]" />
-                  Connected to MongoDB Atlas Database
+                  {dbStatus}
                 </span>
               )}
 
               <button
                 type="submit"
-                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#c59b27] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider hover:scale-105 transition-all flex items-center gap-2 cursor-pointer shadow-md"
+                disabled={isSubmitting}
+                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#c59b27] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider hover:scale-105 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
               >
                 <Send className="w-3.5 h-3.5" />
-                Submit Comment
+                {isSubmitting ? 'Saving...' : 'Submit Comment'}
               </button>
             </div>
           </form>
@@ -186,7 +219,7 @@ export default function Guestbook({ data }) {
           </h3>
           <span className="text-xs text-[#e2d8c3]/70 font-sans-ui flex items-center gap-1">
             <Database className="w-3.5 h-3.5 text-[#d4af37]" />
-            Saved Live in MongoDB
+            Saved Continuously
           </span>
         </div>
 
