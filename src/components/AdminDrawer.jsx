@@ -197,13 +197,14 @@ export default function AdminDrawer({ isOpen, onClose, data, onUpdateData, onRes
 
           {/* Footer Buttons */}
           <div className="pt-6 border-t border-[#d4af37]/30 flex flex-col gap-2">
-            <button
-              onClick={exportConfig}
-              className="w-full py-2.5 rounded-xl bg-[#d4af37] text-[#060b19] font-bold text-xs uppercase tracking-wider hover:bg-[#f3e5ab] flex items-center justify-center gap-2 cursor-pointer"
+            <a
+              href="/card.jpg"
+              download="Nikah_Invitation_Card_Alisha_Asif.jpg"
+              className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#c59b27] text-[#060b19] font-bold text-xs uppercase tracking-wider hover:scale-102 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
             >
               <Download className="w-4 h-4" />
-              Export JSON Config
-            </button>
+              Download Official Invitation Card
+            </a>
             <button
               onClick={onResetData}
               className="w-full py-2.5 rounded-xl bg-[#0a1128] border border-[#d4af37]/30 text-[#e2d8c3] text-xs uppercase tracking-wider hover:text-[#d4af37] flex items-center justify-center gap-2 cursor-pointer"

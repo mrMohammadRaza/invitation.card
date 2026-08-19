@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, Clock, Heart, Sparkles, ChevronDown } from 'lucide-react';
+import { Calendar, MapPin, Clock, Heart, Sparkles, ChevronDown, Download } from 'lucide-react';
 
 export default function Hero({ data }) {
   const scrollToSection = (id) => {
@@ -123,18 +123,20 @@ export default function Hero({ data }) {
           transition={{ delay: 0.6, duration: 0.6 }}
           className="flex flex-wrap items-center justify-center gap-4 mt-8"
         >
-          <button
-            onClick={() => scrollToSection('#venue')}
-            className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#c59b27] text-[#060b19] font-sans-ui text-xs uppercase tracking-widest font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer"
+          <a
+            href="/card.jpg"
+            download="Nikah_Invitation_Card_Alisha_Asif.jpg"
+            className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#c59b27] text-[#060b19] font-sans-ui text-xs uppercase tracking-widest font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2 cursor-pointer"
           >
-            Get Location Directions
-          </button>
+            <Download className="w-4 h-4" />
+            Download Invitation Card
+          </a>
           
           <button
-            onClick={() => scrollToSection('#events')}
+            onClick={() => scrollToSection('#venue')}
             className="px-8 py-3.5 rounded-full bg-[#0a1128]/90 border border-[#d4af37]/50 text-[#f3e5ab] font-sans-ui text-xs uppercase tracking-widest font-semibold hover:bg-[#d4af37]/20 transition-all cursor-pointer"
           >
-            View Event Details
+            Get Location Directions
           </button>
         </motion.div>
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Music, VolumeX, Share2, Settings, Calendar, Heart } from 'lucide-react';
+import { Menu, X, Share2, Settings, Download } from 'lucide-react';
 
-export default function Navbar({ data, isMuted, onToggleAudio, onOpenAdmin, onShare }) {
+export default function Navbar({ data, onOpenAdmin, onShare }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -86,15 +86,16 @@ export default function Navbar({ data, isMuted, onToggleAudio, onOpenAdmin, onSh
 
         {/* Right Utility Buttons */}
         <div className="flex items-center gap-2.5">
-          {/* Music Mute Toggle */}
-          <button
-            onClick={onToggleAudio}
-            title={isMuted ? "Play background music" : "Mute background music"}
-            className="p-2 rounded-full bg-[#0a1128]/80 border border-[#d4af37]/30 text-[#d4af37] hover:bg-[#d4af37]/20 transition-all cursor-pointer"
-            aria-label="Toggle Music"
+          {/* Download Card Direct Button */}
+          <a
+            href="/card.jpg"
+            download="Nikah_Invitation_Card_Alisha_Asif.jpg"
+            title="Download Card Image"
+            className="px-3 py-1.5 rounded-full bg-gradient-to-r from-[#d4af37] to-[#c59b27] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-md hover:scale-105 transition-all"
           >
-            {isMuted ? <VolumeX className="w-4 h-4" /> : <Music className="w-4 h-4 animate-bounce" />}
-          </button>
+            <Download className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Download Card</span>
+          </a>
 
           {/* Share Button */}
           <button

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Share2, QrCode, Copy, Check, MessageCircle, Sparkles } from 'lucide-react';
+import { Share2, QrCode, Copy, Check, MessageCircle, Download } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 
 export default function ShareSection({ data, onShare }) {
@@ -52,12 +52,21 @@ export default function ShareSection({ data, onShare }) {
             </p>
 
             <div className="pt-2 space-y-3">
+              <a
+                href="/card.jpg"
+                download="Nikah_Invitation_Card_Alisha_Asif.jpg"
+                className="w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#c59b27] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider hover:scale-102 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+              >
+                <Download className="w-4 h-4" />
+                Download Invitation Card
+              </a>
+
               <button
                 onClick={onShare}
-                className="w-full py-3.5 px-6 rounded-full bg-[#d4af37] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider hover:bg-[#f3e5ab] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                className="w-full py-3.5 px-6 rounded-full bg-[#0a1128] border border-[#d4af37]/50 text-[#f3e5ab] font-sans-ui text-xs font-bold uppercase tracking-wider hover:bg-[#d4af37]/20 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
               >
-                <Share2 className="w-4 h-4" />
-                Share Invitation Link
+                <Share2 className="w-4 h-4 text-[#d4af37]" />
+                Share Website Link
               </button>
 
               <a
@@ -72,10 +81,10 @@ export default function ShareSection({ data, onShare }) {
 
               <button
                 onClick={copyUrl}
-                className="w-full py-3 px-6 rounded-full bg-[#0a1128] border border-[#d4af37]/40 text-[#f3e5ab] font-sans-ui text-xs font-semibold uppercase tracking-wider hover:bg-[#d4af37]/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 px-6 rounded-full bg-[#0a1128] border border-[#d4af37]/40 text-[#e2d8c3] font-sans-ui text-xs font-semibold uppercase tracking-wider hover:text-[#d4af37] transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-[#d4af37]" />}
-                {copied ? "Link Copied!" : "Copy Website Link"}
+                {copied ? "Link Copied!" : "Copy Link Text"}
               </button>
             </div>
           </motion.div>
@@ -96,20 +105,21 @@ export default function ShareSection({ data, onShare }) {
               Scan QR Code
             </h3>
 
-            {/* QR Code Container */}
-            <div className="p-4 rounded-2xl bg-white max-w-[200px] mx-auto border-2 border-[#d4af37] shadow-inner">
+            {/* Mobile Responsive High Visibility QR Code Container */}
+            <div className="w-44 h-44 sm:w-52 sm:h-52 mx-auto bg-white p-3 rounded-2xl flex items-center justify-center border-2 border-[#d4af37] shadow-xl overflow-hidden">
               <QRCodeSVG
                 value={currentUrl}
-                size={160}
+                width="100%"
+                height="100%"
                 fgColor="#060b19"
                 bgColor="#FFFFFF"
                 level="H"
-                className="mx-auto"
+                includeMargin={true}
               />
             </div>
 
-            <p className="text-[11px] text-[#e2d8c3]/70 font-sans-ui">
-              Point mobile camera at QR code to instantly open website
+            <p className="text-[11px] text-[#e2d8c3]/80 font-sans-ui pt-1">
+              Scan with mobile phone camera to open invitation website
             </p>
           </motion.div>
         </div>

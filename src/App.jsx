@@ -14,7 +14,6 @@ import Guestbook from './components/Guestbook';
 import Gallery from './components/Gallery';
 import ContactSection from './components/ContactSection';
 import ShareSection from './components/ShareSection';
-import AudioPlayer from './components/AudioPlayer';
 import AdminDrawer from './components/AdminDrawer';
 import Footer from './components/Footer';
 
@@ -28,7 +27,6 @@ export default function App() {
   });
 
   const [hasEntered, setHasEntered] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   useEffect(() => {
@@ -65,9 +63,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#060b19] text-[#fbf8f3] relative font-sans-ui selection:bg-[#d4af37]/30 selection:text-[#f3e5ab]">
-      {/* Background Music Player */}
-      <AudioPlayer isMuted={isMuted} />
-
       {/* Cinematic Opening Splash Screen */}
       {!hasEntered && (
         <WelcomeScreen
@@ -82,8 +77,6 @@ export default function App() {
           {/* Top Sticky Navigation */}
           <Navbar
             data={weddingData}
-            isMuted={isMuted}
-            onToggleAudio={() => setIsMuted(!isMuted)}
             onOpenAdmin={() => setIsAdminOpen(true)}
             onShare={handleShare}
           />
