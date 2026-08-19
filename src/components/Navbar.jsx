@@ -21,6 +21,7 @@ export default function Navbar({ data, onOpenAdmin, onShare }) {
     { name: 'Events', href: '#events' },
     { name: 'Venue', href: '#venue' },
     { name: 'Card', href: '#card-viewer' },
+    { name: 'Comments', href: '#comments' },
     { name: 'Contact', href: '#contact' },
   ];
 
