@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-arabic {
+    font-family: 'Amiri', 'Scheherazade New', serif;
+  }
+  .font-title {
+    font-family: 'Cinzel', 'Playfair Display', serif;
+  }
+  .font-serif-body {
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  }
+  .font-sans-ui {
+    font-family: 'Outfit', 'Inter', sans-serif;
+  }
+}
+
+/* Custom Gold Gradient Text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFF0BD 0%, #D4AF37 45%, #F3E5AB 70%, #AA7C11 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gold-shimmer {
+  background: linear-gradient(90deg, #D4AF37 0%, #FFF5D1 25%, #D4AF37 50%, #FFF5D1 75%, #D4AF37 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Glassmorphism Dark Card */
+.glass-card {
+  background: rgba(10, 17, 40, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), 
+              0 0 20px 0 rgba(212, 175, 55, 0.08);
+}
+
+.glass-card-gold {
+  background: radial-gradient(circle at top left, rgba(212, 175, 55, 0.12), rgba(10, 17, 40, 0.85));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 12px 35px -10px rgba(0, 0, 0, 0.7),
+              inset 0 1px 0 rgba(243, 229, 171, 0.2);
+}
+
+/* Islamic Geometric Background Pattern */
+.bg-islamic-pattern {
+  background-color: #060b19;
+  background-image: radial-gradient(rgba(212, 175, 55, 0.15) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+.bg-pattern-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.04'%3E%3Cpath d='M30 30L15 15l15-15 15 15zM0 30l15-15 15 15-15 15zM30 60l15-15 15 15-15 15zM60 30l-15-15 15-15 15 15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Gold Ornamental Border */
+.border-gold-ornate {
+  border: 2px solid #d4af37;
+  position: relative;
+}
+
+.border-gold-ornate::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  pointer-events: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060b19;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a3a5e;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* Reduced Motion Safety */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

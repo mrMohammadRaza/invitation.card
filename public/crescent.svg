@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <path d="M50 10C27.9086 10 10 27.9086 10 50C10 72.0914 27.9086 90 50 90C63.5682 90 75.4851 83.2562 82.5843 72.8807C74.653 77.2917 65.5186 79.5 56 79.5C33.6325 79.5 15.5 61.3675 15.5 39C15.5 28.5367 19.4673 18.9996 26.0125 11.8596C20.6558 15.4219 16.2731 20.315 13.3364 26.0645C10 50 50 10 50 10Z" fill="url(#gold-grad)"/>
+  <polygon points="72,25 75,34 84,34 77,39 80,48 72,42 64,48 67,39 60,34 69,34" fill="url(#gold-grad)"/>
+  <defs>
+    <linearGradient id="gold-grad" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F3E5AB"/>
+      <stop offset="0.5" stop-color="#D4AF37"/>
+      <stop offset="1" stop-color="#AA7C11"/>
+    </linearGradient>
+  </defs>
+</svg>
