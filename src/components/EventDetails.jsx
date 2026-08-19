@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, MapPin, Download, Check, Sparkles, Utensils } from 'lucide-react';
 
-export default function EventDetails({ data }) {
+export default function EventDetails({ data, t }) {
   const [copied, setCopied] = useState(false);
 
   // Generate Google Calendar URL
@@ -53,11 +53,11 @@ END:VCALENDAR`;
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0a1128] border border-[#d4af37]/30 mb-3">
             <Calendar className="w-3.5 h-3.5 text-[#d4af37]" />
             <span className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui">
-              Program & Schedule
+              {t.nav.events}
             </span>
           </div>
           <h2 className="font-title text-3xl sm:text-4xl text-[#fbf8f3]">
-            Nikah & Dawat Details
+            {t.nikahTimeLabel} & {t.dawatTimeLabel}
           </h2>
           <p className="text-xs text-[#e2d8c3]/70 font-sans-ui mt-2">
             Exact event timings as printed on the official card
@@ -78,16 +78,13 @@ END:VCALENDAR`;
               <Clock className="w-6 h-6" />
             </div>
             <span className="text-[10px] uppercase tracking-widest text-[#d4af37] font-sans-ui font-semibold">
-              Primary Ceremony
+              {t.nikahCeremony}
             </span>
             <h3 className="font-title text-2xl text-[#fbf8f3] font-bold mt-1">
               Nikah
             </h3>
             <p className="text-lg font-semibold text-[#d4af37] font-sans-ui mt-3">
-              {data.event.nikahTime}
-            </p>
-            <p className="text-xs text-[#e2d8c3]/70 font-sans-ui mt-1">
-              Following evening Magrib prayers
+              {t.nikahTimeValue}
             </p>
           </motion.div>
 
@@ -103,16 +100,13 @@ END:VCALENDAR`;
               <Utensils className="w-6 h-6" />
             </div>
             <span className="text-[10px] uppercase tracking-widest text-[#d4af37] font-sans-ui font-semibold">
-              Reception Feast
+              {t.dawatTimeLabel}
             </span>
             <h3 className="font-title text-2xl text-[#fbf8f3] font-bold mt-1">
               Dawat
             </h3>
             <p className="text-lg font-semibold text-[#d4af37] font-sans-ui mt-3">
-              {data.event.dawatTime}
-            </p>
-            <p className="text-xs text-[#e2d8c3]/70 font-sans-ui mt-1">
-              Valima & dinner following Nikah
+              {t.dawatTimeValue}
             </p>
           </motion.div>
 
@@ -128,16 +122,13 @@ END:VCALENDAR`;
               <Calendar className="w-6 h-6" />
             </div>
             <span className="text-[10px] uppercase tracking-widest text-[#d4af37] font-sans-ui font-semibold">
-              Auspicious Date
+              {t.dateLabel}
             </span>
-            <h3 className="font-title text-2xl text-[#fbf8f3] font-bold mt-1">
-              Thursday
+            <h3 className="font-title text-xl text-[#fbf8f3] font-bold mt-1">
+              {t.dateValue}
             </h3>
-            <p className="text-lg font-semibold text-[#d4af37] font-sans-ui mt-3">
-              12 Nov 2026
-            </p>
-            <p className="text-xs text-[#e2d8c3]/70 font-sans-ui mt-1">
-              Card Ref: {data.event.shortDate}
+            <p className="text-xs text-[#e2d8c3]/70 font-sans-ui mt-3">
+              Ref: {t.cardRefDate}
             </p>
           </motion.div>
 
@@ -153,17 +144,11 @@ END:VCALENDAR`;
               <MapPin className="w-6 h-6" />
             </div>
             <span className="text-[10px] uppercase tracking-widest text-[#d4af37] font-sans-ui font-semibold">
-              Venue Location
+              {t.venueLabel}
             </span>
-            <h3 className="font-title text-xl text-[#fbf8f3] font-bold mt-1 leading-tight">
-              Ambedkar Bhawan
+            <h3 className="font-title text-lg text-[#fbf8f3] font-bold mt-1 leading-tight">
+              {t.venueValue}
             </h3>
-            <p className="text-xs font-semibold text-[#d4af37] font-sans-ui mt-3">
-              Martaroli Gondia
-            </p>
-            <p className="text-[11px] text-[#e2d8c3]/70 font-sans-ui mt-1">
-              Maharashtra, India
-            </p>
           </motion.div>
         </div>
 

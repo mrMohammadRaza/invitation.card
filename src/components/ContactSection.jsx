@@ -2,21 +2,21 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Phone, MessageCircle, Users, ExternalLink } from 'lucide-react';
 
-export default function ContactSection({ data }) {
+export default function ContactSection({ data, t }) {
   return (
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-islamic-pattern relative">
       <div className="max-w-4xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0a1128] border border-[#d4af37]/30 mb-3">
           <Phone className="w-3.5 h-3.5 text-[#d4af37]" />
           <span className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui">
-            Contact & Queries
+            {t.nav.contact}
           </span>
         </div>
         <h2 className="font-title text-3xl sm:text-4xl text-[#fbf8f3] mb-2">
-          Family Contacts
+          {t.familyContacts}
         </h2>
         <p className="text-xs text-[#e2d8c3]/70 font-sans-ui mb-12">
-          For any inquiries, directions, or blessings — {data.family.name}
+          {t.contactDesc}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
@@ -34,7 +34,7 @@ export default function ContactSection({ data }) {
               </div>
 
               <span className="text-[10px] uppercase tracking-widest text-[#d4af37] font-sans-ui font-semibold">
-                {contact.label}
+                {t.familySignature}
               </span>
 
               <h3 className="font-title text-2xl sm:text-3xl text-[#fbf8f3] font-bold mt-1 mb-6 tracking-wider">
@@ -48,7 +48,7 @@ export default function ContactSection({ data }) {
                   className="flex-1 py-3 px-4 rounded-full bg-[#d4af37] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider hover:bg-[#f3e5ab] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
                 >
                   <Phone className="w-4 h-4" />
-                  Call Now
+                  {t.callNow}
                 </a>
 
                 {/* WhatsApp Chat Button */}
@@ -60,7 +60,7 @@ export default function ContactSection({ data }) {
                   title="Chat on WhatsApp"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  WhatsApp
+                  {t.whatsApp}
                 </a>
               </div>
             </motion.div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heart, Sparkles } from 'lucide-react';
 
-export default function Footer({ data }) {
+export default function Footer({ data, t }) {
   return (
     <footer className="bg-[#040711] border-t border-[#d4af37]/30 py-16 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
       {/* Background Soft Glow */}
@@ -22,7 +22,7 @@ export default function Footer({ data }) {
             {data.bride.name} <span className="text-[#d4af37] font-serif-body italic">&</span> {data.groom.name}
           </h2>
           <p className="text-xs text-[#d4af37] font-sans-ui uppercase tracking-widest pt-1">
-            Thursday, 12 November 2026 • Ambedkar Bhawan, Martaroli Gondia
+            {t.dateValue} • {t.venueValue}
           </p>
         </div>
 
@@ -35,16 +35,16 @@ export default function Footer({ data }) {
 
         {/* Closing Message */}
         <p className="font-serif-body italic text-lg sm:text-xl text-[#e2d8c3] max-w-lg mx-auto">
-          "{data.closingMessage}"
+          "{t.closingMsg}"
         </p>
 
         {/* Family Signature */}
         <div className="pt-4 border-t border-[#d4af37]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#e2d8c3]/60 font-sans-ui max-w-2xl mx-auto">
-          <span>Invitation Ref: {data.headerNumber}</span>
+          <span>{t.invitationNo} {data.headerNumber}</span>
           <span className="font-title text-sm font-semibold text-[#f3e5ab]">
-            {data.family.name}
+            {t.familySignature}
           </span>
-          <span>© 2026 Premium Nikah Experience</span>
+          <span>© 2026 Premium Nikah Website</span>
         </div>
       </div>
     </footer>

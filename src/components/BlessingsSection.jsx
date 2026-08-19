@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Award, Sparkles } from 'lucide-react';
 
-export default function BlessingsSection({ data }) {
+export default function BlessingsSection({ data, t }) {
   return (
     <section id="blessings" className="py-16 px-4 sm:px-6 lg:px-8 bg-[#0a1128]/70 border-y border-[#d4af37]/20 relative">
       <div className="max-w-3xl mx-auto text-center">
@@ -18,19 +18,19 @@ export default function BlessingsSection({ data }) {
           </div>
 
           <p className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui font-semibold mb-2">
-            Family Blessings & Reverence
+            {t.nav.blessings}
           </p>
 
           <h3 className="font-serif-body italic text-xl sm:text-2xl text-[#e2d8c3] mb-3">
-            With the blessings of
+            {t.blessingsTitle}
           </h3>
 
           <h2 className="font-title text-3xl sm:text-4xl text-gold-shimmer font-bold tracking-wide">
-            {data.blessings.name}
+            {t.late} {data.blessings.name.replace('Late ', '')}
           </h2>
 
           <p className="text-xs text-[#e2d8c3]/60 font-sans-ui mt-4 max-w-lg mx-auto">
-            Honoring our elders whose prayers and love remain forever in our hearts.
+            {t.blessingsDesc}
           </p>
         </motion.div>
       </div>

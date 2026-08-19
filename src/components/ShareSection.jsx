@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Share2, Copy, Check, MessageCircle, Download } from 'lucide-react';
 
-export default function ShareSection({ data, onShare }) {
+export default function ShareSection({ data, t, onShare }) {
   const [copied, setCopied] = useState(false);
 
   const currentUrl = typeof window !== 'undefined' ? window.location.href : data.websiteUrl;
@@ -24,14 +24,14 @@ export default function ShareSection({ data, onShare }) {
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0a1128] border border-[#d4af37]/30 mb-3">
           <Share2 className="w-3.5 h-3.5 text-[#d4af37]" />
           <span className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui">
-            Share & Download
+            {t.shareTitle}
           </span>
         </div>
         <h2 className="font-title text-3xl sm:text-4xl text-[#fbf8f3] mb-2">
-          Share Digital Invitation
+          {t.shareTitle}
         </h2>
         <p className="text-xs text-[#e2d8c3]/70 font-sans-ui mb-10 max-w-md mx-auto">
-          Pass along the Nikah invitation card & website link to friends and relatives
+          {t.shareDesc}
         </p>
 
         {/* Action Card */}
@@ -48,10 +48,10 @@ export default function ShareSection({ data, onShare }) {
 
           <div className="space-y-2">
             <h3 className="font-title text-2xl text-[#fbf8f3] font-bold">
-              Send to Family & Friends
+              {t.shareTitle}
             </h3>
             <p className="text-xs text-[#e2d8c3]/80 font-sans-ui leading-relaxed max-w-md mx-auto">
-              Download the official invitation card or share the interactive website link directly via WhatsApp and mobile apps.
+              {t.shareDesc}
             </p>
           </div>
 
@@ -62,7 +62,7 @@ export default function ShareSection({ data, onShare }) {
               className="w-full py-4 px-6 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#c59b27] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider hover:scale-102 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg"
             >
               <Download className="w-4 h-4" />
-              Download Official Invitation Card
+              {t.downloadCard}
             </a>
 
             <button
@@ -70,7 +70,7 @@ export default function ShareSection({ data, onShare }) {
               className="w-full py-3.5 px-6 rounded-full bg-[#0a1128] border border-[#d4af37]/50 text-[#f3e5ab] font-sans-ui text-xs font-bold uppercase tracking-wider hover:bg-[#d4af37]/20 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
             >
               <Share2 className="w-4 h-4 text-[#d4af37]" />
-              Share Website Link
+              {t.shareLink}
             </button>
 
             <a
@@ -80,7 +80,7 @@ export default function ShareSection({ data, onShare }) {
               className="w-full py-3.5 px-6 rounded-full bg-[#25D366] text-white font-sans-ui text-xs font-bold uppercase tracking-wider hover:bg-[#20bd5a] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
             >
               <MessageCircle className="w-4 h-4" />
-              Share on WhatsApp
+              {t.shareWhatsApp}
             </a>
 
             <button
@@ -88,7 +88,7 @@ export default function ShareSection({ data, onShare }) {
               className="w-full py-3 px-6 rounded-full bg-[#0a1128] border border-[#d4af37]/40 text-[#e2d8c3] font-sans-ui text-xs font-semibold uppercase tracking-wider hover:text-[#d4af37] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-[#d4af37]" />}
-              {copied ? "Link Copied to Clipboard!" : "Copy Website Link Text"}
+              {copied ? t.linkCopied : t.copyLink}
             </button>
           </div>
         </motion.div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { initialWeddingData } from './data/weddingData';
+import { translations } from './data/translations';
 import WelcomeScreen from './components/WelcomeScreen';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -26,12 +27,26 @@ export default function App() {
     return initialWeddingData;
   });
 
+  const [lang, setLang] = useState(() => {
+    return localStorage.getItem('nikah_lang') || 'en';
+  });
+
   const [hasEntered, setHasEntered] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+
+  // Active translation dictionary
+  const t = translations[lang] || translations.en;
 
   useEffect(() => {
     localStorage.setItem('nikah_wedding_data', JSON.stringify(weddingData));
   }, [weddingData]);
+
+  useEffect(() => {
+    localStorage.setItem('nikah_lang', lang);
+    // Apply RTL for Urdu language
+    document.documentElement.dir = lang === 'ur' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   const handleUpdateData = (newData) => {
     setWeddingData(newData);
@@ -62,11 +77,14 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#060b19] text-[#fbf8f3] relative font-sans-ui selection:bg-[#d4af37]/30 selection:text-[#f3e5ab]">
+    <div className={`min-h-screen bg-[#060b19] text-[#fbf8f3] relative font-sans-ui selection:bg-[#d4af37]/30 selection:text-[#f3e5ab] ${lang === 'ur' ? 'font-arabic' : ''}`}>
       {/* Cinematic Opening Splash Screen */}
       {!hasEntered && (
         <WelcomeScreen
           data={weddingData}
+          lang={lang}
+          setLang={setLang}
+          t={t}
           onEnter={() => setHasEntered(true)}
         />
       )}
@@ -77,34 +95,39 @@ export default function App() {
           {/* Top Sticky Navigation */}
           <Navbar
             data={weddingData}
+            lang={lang}
+            setLang={setLang}
+            t={t}
             onOpenAdmin={() => setIsAdminOpen(true)}
             onShare={handleShare}
           />
 
           {/* Main Content Sections */}
           <main>
-            <Hero data={weddingData} />
-            <Countdown data={weddingData} />
-            <InvitationMessage data={weddingData} />
-            <CoupleSection data={weddingData} />
-            <BlessingsSection data={weddingData} />
-            <EventDetails data={weddingData} />
-            <VenueSection data={weddingData} />
-            <CardViewer data={weddingData} />
-            <Guestbook data={weddingData} />
-            <Gallery data={weddingData} />
-            <ContactSection data={weddingData} />
-            <ShareSection data={weddingData} onShare={handleShare} />
+            <Hero data={weddingData} lang={lang} t={t} />
+            <Countdown data={weddingData} lang={lang} t={t} />
+            <InvitationMessage data={weddingData} lang={lang} t={t} />
+            <CoupleSection data={weddingData} lang={lang} t={t} />
+            <BlessingsSection data={weddingData} lang={lang} t={t} />
+            <EventDetails data={weddingData} lang={lang} t={t} />
+            <VenueSection data={weddingData} lang={lang} t={t} />
+            <CardViewer data={weddingData} lang={lang} t={t} />
+            <Guestbook data={weddingData} lang={lang} t={t} />
+            <Gallery data={weddingData} lang={lang} t={t} />
+            <ContactSection data={weddingData} lang={lang} t={t} />
+            <ShareSection data={weddingData} lang={lang} t={t} onShare={handleShare} />
           </main>
 
           {/* Closing Footer */}
-          <Footer data={weddingData} />
+          <Footer data={weddingData} lang={lang} t={t} />
 
           {/* Configuration Admin Drawer Modal */}
           <AdminDrawer
             isOpen={isAdminOpen}
             onClose={() => setIsAdminOpen(false)}
             data={weddingData}
+            lang={lang}
+            t={t}
             onUpdateData={handleUpdateData}
             onResetData={handleResetData}
           />

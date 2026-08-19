@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Image, Maximize2, Download, X, ZoomIn, ZoomOut, Sparkles } from 'lucide-react';
 
-export default function CardViewer({ data }) {
+export default function CardViewer({ data, t }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
 
@@ -15,14 +15,14 @@ export default function CardViewer({ data }) {
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0a1128] border border-[#d4af37]/30 mb-3">
           <Image className="w-3.5 h-3.5 text-[#d4af37]" />
           <span className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui">
-            Invitation Card Showcase
+            {t.nav.card}
           </span>
         </div>
         <h2 className="font-title text-3xl sm:text-4xl text-[#fbf8f3] mb-2">
-          View Original Invitation Card
+          {t.viewCard}
         </h2>
         <p className="text-xs text-[#e2d8c3]/70 font-sans-ui mb-10 max-w-lg mx-auto">
-          Experience the physical Nikah card design digitally in high resolution
+          {t.viewCardDesc}
         </p>
 
         {/* Card Frame Container */}
@@ -48,7 +48,7 @@ export default function CardViewer({ data }) {
                 className="px-5 py-2.5 rounded-full bg-[#d4af37] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg cursor-pointer hover:bg-[#f3e5ab] transition-all"
               >
                 <Maximize2 className="w-4 h-4" />
-                View Fullscreen
+                {t.fullscreenCard}
               </button>
 
               <a
@@ -69,7 +69,7 @@ export default function CardViewer({ data }) {
             className="px-6 py-2.5 rounded-full bg-[#0a1128] border border-[#d4af37]/40 text-[#f3e5ab] text-xs font-sans-ui font-semibold uppercase tracking-wider hover:bg-[#d4af37]/20 transition-all flex items-center gap-2 cursor-pointer"
           >
             <Maximize2 className="w-4 h-4 text-[#d4af37]" />
-            Expand & Zoom Card
+            {t.fullscreenCard}
           </button>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Home, MapPin, User, Heart } from 'lucide-react';
 
-export default function CoupleSection({ data }) {
+export default function CoupleSection({ data, t }) {
   return (
     <section id="couple" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#060b19] relative">
       <div className="max-w-5xl mx-auto">
@@ -10,11 +10,11 @@ export default function CoupleSection({ data }) {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0a1128] border border-[#d4af37]/30 mb-3">
             <User className="w-3.5 h-3.5 text-[#d4af37]" />
             <span className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui">
-              The Blessed Couple
+              {t.nav.couple}
             </span>
           </div>
           <h2 className="font-title text-3xl sm:text-4xl text-[#fbf8f3]">
-            Bride & Groom Details
+            {t.brideTitle} & {t.groomTitle}
           </h2>
           <p className="text-xs text-[#e2d8c3]/70 font-sans-ui mt-2">
             Details as recorded on the official Nikah invitation
@@ -41,13 +41,13 @@ export default function CoupleSection({ data }) {
 
             <div className="space-y-3">
               <span className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui font-semibold">
-                The Bride
+                {t.brideTitle}
               </span>
               <h3 className="font-title text-3xl sm:text-4xl text-[#fbf8f3] font-bold">
                 {data.bride.name}
               </h3>
               <p className="text-sm text-[#e2d8c3] font-serif-body italic">
-                {data.bride.relation}
+                {t.daughterOf} {data.bride.father}
               </p>
             </div>
 
@@ -56,7 +56,7 @@ export default function CoupleSection({ data }) {
                 <MapPin className="w-4 h-4 text-[#d4af37] mt-1 shrink-0" />
                 <div>
                   <p className="text-[10px] text-[#e2d8c3]/60 uppercase tracking-widest font-sans-ui">
-                    Bride's Residence / Address
+                    {t.brideTitle} Residence / Address
                   </p>
                   <p className="text-sm font-medium text-[#fbf8f3] font-sans-ui mt-0.5 leading-relaxed">
                     {data.bride.address.full}
@@ -80,13 +80,13 @@ export default function CoupleSection({ data }) {
 
             <div className="space-y-3">
               <span className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui font-semibold">
-                The Groom
+                {t.groomTitle}
               </span>
               <h3 className="font-title text-3xl sm:text-4xl text-[#fbf8f3] font-bold">
                 {data.groom.name}
               </h3>
               <p className="text-sm text-[#e2d8c3] font-serif-body italic">
-                {data.groom.relation}
+                {t.sonOf} {t.late} {data.groom.father.replace('Late ', '')}
               </p>
             </div>
 
@@ -95,7 +95,7 @@ export default function CoupleSection({ data }) {
                 <MapPin className="w-4 h-4 text-[#d4af37] mt-1 shrink-0" />
                 <div>
                   <p className="text-[10px] text-[#e2d8c3]/60 uppercase tracking-widest font-sans-ui">
-                    Groom's Residence / Address
+                    {t.groomTitle} Residence / Address
                   </p>
                   <p className="text-sm font-medium text-[#fbf8f3] font-sans-ui mt-0.5 leading-relaxed">
                     {data.groom.address.full}

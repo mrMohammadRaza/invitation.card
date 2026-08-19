@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Share2, Settings, Download } from 'lucide-react';
+import { Menu, X, Share2, Settings, Download, Globe } from 'lucide-react';
 
-export default function Navbar({ data, onOpenAdmin, onShare }) {
+export default function Navbar({ data, lang, setLang, t, onOpenAdmin, onShare }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -14,15 +14,15 @@ export default function Navbar({ data, onOpenAdmin, onShare }) {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#hero' },
-    { name: 'Invitation', href: '#invitation' },
-    { name: 'Couple', href: '#couple' },
-    { name: 'Blessings', href: '#blessings' },
-    { name: 'Events', href: '#events' },
-    { name: 'Venue', href: '#venue' },
-    { name: 'Card', href: '#card-viewer' },
-    { name: 'Comments', href: '#comments' },
-    { name: 'Contact', href: '#contact' },
+    { name: t.nav.home, href: '#hero' },
+    { name: t.nav.invitation, href: '#invitation' },
+    { name: t.nav.couple, href: '#couple' },
+    { name: t.nav.blessings, href: '#blessings' },
+    { name: t.nav.events, href: '#events' },
+    { name: t.nav.venue, href: '#venue' },
+    { name: t.nav.card, href: '#card-viewer' },
+    { name: t.nav.comments, href: '#comments' },
+    { name: t.nav.contact, href: '#contact' },
   ];
 
   const handleNavClick = (e, href) => {
@@ -42,6 +42,12 @@ export default function Navbar({ data, onOpenAdmin, onShare }) {
       });
     }
   };
+
+  const languages = [
+    { code: 'en', label: 'English' },
+    { code: 'hi', label: 'हिंदी' },
+    { code: 'ur', label: 'اردو' }
+  ];
 
   return (
     <header
@@ -72,7 +78,7 @@ export default function Navbar({ data, onOpenAdmin, onShare }) {
         </a>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-5">
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -86,16 +92,33 @@ export default function Navbar({ data, onOpenAdmin, onShare }) {
         </nav>
 
         {/* Right Utility Buttons */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
+          {/* Language Switcher Pill */}
+          <div className="flex items-center bg-[#0a1128]/90 border border-[#d4af37]/40 rounded-full p-0.5 text-xs font-sans-ui">
+            {languages.map((item) => (
+              <button
+                key={item.code}
+                onClick={() => setLang(item.code)}
+                className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition-all cursor-pointer ${
+                  lang === item.code
+                    ? 'bg-[#d4af37] text-[#060b19] font-bold shadow-md'
+                    : 'text-[#e2d8c3]/80 hover:text-[#d4af37]'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
           {/* Download Card Direct Button */}
           <a
             href="/card.jpg"
             download="Nikah_Invitation_Card_Alisha_Asif.jpg"
             title="Download Card Image"
-            className="px-3 py-1.5 rounded-full bg-gradient-to-r from-[#d4af37] to-[#c59b27] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-md hover:scale-105 transition-all"
+            className="hidden sm:flex px-3 py-1.5 rounded-full bg-gradient-to-r from-[#d4af37] to-[#c59b27] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider items-center gap-1.5 shadow-md hover:scale-105 transition-all"
           >
             <Download className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Download Card</span>
+            <span>Card</span>
           </a>
 
           {/* Share Button */}
@@ -132,6 +155,31 @@ export default function Navbar({ data, onOpenAdmin, onShare }) {
       {/* Mobile Drawer Menu */}
       {isOpen && (
         <div className="lg:hidden bg-[#060b19]/98 border-b border-[#d4af37]/30 px-4 pt-4 pb-6 space-y-3 shadow-2xl backdrop-blur-xl animate-fadeIn">
+          {/* Mobile Language Switcher */}
+          <div className="flex items-center justify-between pb-3 border-b border-[#d4af37]/20">
+            <span className="text-xs text-[#d4af37] font-sans-ui flex items-center gap-1.5">
+              <Globe className="w-4 h-4" />
+              Language / भाषा / زبان:
+            </span>
+            <div className="flex items-center bg-[#0a1128] border border-[#d4af37]/40 rounded-full p-0.5">
+              {languages.map((item) => (
+                <button
+                  key={item.code}
+                  onClick={() => {
+                    setLang(item.code);
+                  }}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                    lang === item.code
+                      ? 'bg-[#d4af37] text-[#060b19] font-bold'
+                      : 'text-[#e2d8c3]/80'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {navLinks.map((link) => (
             <a
               key={link.name}
@@ -142,6 +190,7 @@ export default function Navbar({ data, onOpenAdmin, onShare }) {
               {link.name}
             </a>
           ))}
+
           <div className="pt-2 border-t border-[#d4af37]/20 flex items-center justify-between text-xs text-[#e2d8c3]/60 px-4 font-sans-ui">
             <span>786/92 Nikah Ceremony</span>
             <span>Sheikh Family</span>

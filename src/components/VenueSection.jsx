@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Navigation, Copy, Check, ExternalLink } from 'lucide-react';
 
-export default function VenueSection({ data }) {
+export default function VenueSection({ data, t }) {
   const [copied, setCopied] = useState(false);
 
   const getMapSearchUrl = () => {
@@ -23,14 +23,14 @@ export default function VenueSection({ data }) {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0a1128] border border-[#d4af37]/30 mb-3">
             <MapPin className="w-3.5 h-3.5 text-[#d4af37]" />
             <span className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui">
-              Location & Map
+              {t.nav.venue}
             </span>
           </div>
           <h2 className="font-title text-3xl sm:text-4xl text-[#fbf8f3]">
-            Nikah Venue
+            {t.venueLabel}
           </h2>
           <p className="text-xs text-[#e2d8c3]/70 font-sans-ui mt-2">
-            Ambedkar Bhawan, Martaroli Gondia
+            {t.venueValue}
           </p>
         </div>
 
@@ -46,19 +46,15 @@ export default function VenueSection({ data }) {
           </div>
 
           <span className="text-xs uppercase tracking-widest text-[#d4af37] font-sans-ui font-semibold">
-            Official Venue Address
+            {t.venueLabel}
           </span>
 
           <h3 className="font-title text-3xl sm:text-5xl text-[#fbf8f3] font-bold mt-2 mb-3">
-            Ambedkar Bhawan
+            {t.venueValue}
           </h3>
 
-          <p className="text-xl sm:text-2xl text-gold-gradient font-sans-ui font-semibold">
-            Martaroli Gondia.
-          </p>
-
           <p className="text-xs text-[#e2d8c3]/80 font-sans-ui mt-3 max-w-md mx-auto">
-            Gondia District, Maharashtra, Pin Code: 441601
+            {t.venueAddress}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
@@ -69,7 +65,7 @@ export default function VenueSection({ data }) {
               className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#c59b27] text-[#060b19] font-sans-ui text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2 cursor-pointer"
             >
               <Navigation className="w-4 h-4" />
-              Get Directions on Map
+              {t.getDirections}
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
 
@@ -78,7 +74,7 @@ export default function VenueSection({ data }) {
               className="px-6 py-3.5 rounded-full bg-[#0a1128] border border-[#d4af37]/50 text-[#f3e5ab] font-sans-ui text-xs font-semibold uppercase tracking-wider hover:bg-[#d4af37]/20 transition-all flex items-center gap-2 cursor-pointer"
             >
               {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-[#d4af37]" />}
-              {copied ? "Address Copied!" : "Copy Full Venue Text"}
+              {copied ? t.addressCopied : t.copyAddress}
             </button>
           </div>
         </motion.div>

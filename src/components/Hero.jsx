@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Clock, Heart, Sparkles, ChevronDown, Download } from 'lucide-react';
 
-export default function Hero({ data }) {
+export default function Hero({ data, t }) {
   const scrollToSection = (id) => {
     const element = document.querySelector(id);
     if (element) {
@@ -26,7 +26,7 @@ export default function Hero({ data }) {
           <span className="text-[#d4af37] font-arabic text-sm">{data.headerNumber}</span>
           <span className="h-3 w-[1px] bg-[#d4af37]/40" />
           <span className="text-[#f3e5ab] text-xs font-sans-ui tracking-wider uppercase">
-            Official Nikah Invitation
+            {t.officialNikah}
           </span>
         </motion.div>
 
@@ -61,7 +61,7 @@ export default function Hero({ data }) {
           <div className="absolute -top-6 left-1/2 -translate-x-1/2 px-6 py-2 bg-[#060b19] border border-[#d4af37]/50 rounded-full flex items-center gap-2 shadow-lg">
             <Sparkles className="w-4 h-4 text-[#d4af37]" />
             <span className="text-xs font-title tracking-widest text-[#f3e5ab] uppercase">
-              Nikah Ceremony
+              {t.nikahCeremony}
             </span>
             <Sparkles className="w-4 h-4 text-[#d4af37]" />
           </div>
@@ -83,9 +83,9 @@ export default function Hero({ data }) {
 
           {/* Parents Subtitle */}
           <div className="mt-6 pt-4 border-t border-[#d4af37]/20 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs sm:text-sm text-[#e2d8c3]/90 font-serif-body">
-            <span>{data.bride.relation}</span>
+            <span>{t.daughterOf} {data.bride.father}</span>
             <span className="hidden sm:inline text-[#d4af37]">•</span>
-            <span>{data.groom.relation}</span>
+            <span>{t.sonOf} {data.groom.father}</span>
           </div>
 
           {/* Quick Date, Venue, Time Info Pill */}
@@ -93,24 +93,24 @@ export default function Hero({ data }) {
             <div className="p-3 rounded-xl bg-[#0a1128]/70 border border-[#d4af37]/20 flex items-center gap-3">
               <Calendar className="w-5 h-5 text-[#d4af37] shrink-0" />
               <div>
-                <p className="text-[10px] text-[#e2d8c3]/60 font-sans-ui uppercase">Date</p>
-                <p className="text-xs font-semibold text-[#fbf8f3] font-sans-ui">{data.event.dateFormatted}</p>
+                <p className="text-[10px] text-[#e2d8c3]/60 font-sans-ui uppercase">{t.dateLabel}</p>
+                <p className="text-xs font-semibold text-[#fbf8f3] font-sans-ui">{t.dateValue}</p>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-[#0a1128]/70 border border-[#d4af37]/20 flex items-center gap-3">
               <Clock className="w-5 h-5 text-[#d4af37] shrink-0" />
               <div>
-                <p className="text-[10px] text-[#e2d8c3]/60 font-sans-ui uppercase">Nikah & Dawat</p>
-                <p className="text-xs font-semibold text-[#d4af37] font-sans-ui">{data.event.nikahTime}</p>
+                <p className="text-[10px] text-[#e2d8c3]/60 font-sans-ui uppercase">{t.nikahCeremony}</p>
+                <p className="text-xs font-semibold text-[#d4af37] font-sans-ui">{t.nikahTimeValue}</p>
               </div>
             </div>
 
             <div className="p-3 rounded-xl bg-[#0a1128]/70 border border-[#d4af37]/20 flex items-center gap-3">
               <MapPin className="w-5 h-5 text-[#d4af37] shrink-0" />
               <div>
-                <p className="text-[10px] text-[#e2d8c3]/60 font-sans-ui uppercase">Venue</p>
-                <p className="text-xs font-semibold text-[#fbf8f3] font-sans-ui truncate">{data.event.venueShort}</p>
+                <p className="text-[10px] text-[#e2d8c3]/60 font-sans-ui uppercase">{t.venueLabel}</p>
+                <p className="text-xs font-semibold text-[#fbf8f3] font-sans-ui truncate">{t.venueValue}</p>
               </div>
             </div>
           </div>
@@ -129,14 +129,14 @@ export default function Hero({ data }) {
             className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#c59b27] text-[#060b19] font-sans-ui text-xs uppercase tracking-widest font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2 cursor-pointer"
           >
             <Download className="w-4 h-4" />
-            Download Invitation Card
+            {t.downloadCard}
           </a>
           
           <button
             onClick={() => scrollToSection('#venue')}
             className="px-8 py-3.5 rounded-full bg-[#0a1128]/90 border border-[#d4af37]/50 text-[#f3e5ab] font-sans-ui text-xs uppercase tracking-widest font-semibold hover:bg-[#d4af37]/20 transition-all cursor-pointer"
           >
-            Get Location Directions
+            {t.getDirections}
           </button>
         </motion.div>
 

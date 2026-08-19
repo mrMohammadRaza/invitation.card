@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Heart } from 'lucide-react';
 
-export default function WelcomeScreen({ data, onEnter }) {
+export default function WelcomeScreen({ data, lang, setLang, t, onEnter }) {
   const [isVisible, setIsVisible] = useState(true);
 
   const handleEnter = () => {
@@ -11,6 +11,12 @@ export default function WelcomeScreen({ data, onEnter }) {
       onEnter();
     }, 800);
   };
+
+  const languages = [
+    { code: 'en', label: 'English' },
+    { code: 'hi', label: 'हिंदी' },
+    { code: 'ur', label: 'اردو' }
+  ];
 
   return (
     <AnimatePresence>
@@ -24,19 +30,36 @@ export default function WelcomeScreen({ data, onEnter }) {
           {/* Ambient Glowing Particles Overlay */}
           <div className="absolute inset-0 bg-radial from-[#d4af37]/10 via-transparent to-transparent pointer-events-none" />
 
-          {/* Top Invitation Header Tag */}
+          {/* Top Invitation Header Tag & Language Switcher */}
           <motion.div
             initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="pt-4 text-center z-10"
+            className="pt-4 text-center z-10 space-y-3 flex flex-col items-center"
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0a1128]/80 border border-[#d4af37]/40 shadow-lg">
               <Sparkles className="w-3.5 h-3.5 text-[#d4af37] animate-pulse" />
               <span className="text-[#f3e5ab] text-xs tracking-widest font-title">
-                INVITATION NO. {data.headerNumber}
+                {t.invitationNo} {data.headerNumber}
               </span>
               <Sparkles className="w-3.5 h-3.5 text-[#d4af37] animate-pulse" />
+            </div>
+
+            {/* Language Switcher Bar */}
+            <div className="flex items-center bg-[#0a1128]/90 border border-[#d4af37]/40 rounded-full p-1 text-xs font-sans-ui shadow-md">
+              {languages.map((item) => (
+                <button
+                  key={item.code}
+                  onClick={() => setLang(item.code)}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                    lang === item.code
+                      ? 'bg-[#d4af37] text-[#060b19] font-bold shadow-md'
+                      : 'text-[#e2d8c3]/80 hover:text-[#d4af37]'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
           </motion.div>
 
@@ -81,7 +104,7 @@ export default function WelcomeScreen({ data, onEnter }) {
             </div>
 
             <p className="text-xs text-[#e2d8c3]/80 mt-4 uppercase tracking-widest font-sans-ui">
-              {data.event.dateFormatted}
+              {t.dateValue}
             </p>
           </motion.div>
 
